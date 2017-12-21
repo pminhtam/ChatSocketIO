@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dayla ung dung chat SocketIO</title>
+	<script src="https://minhtam.herokuapp.com/socket.io/socket.io.js"></script>
+	<script src="jquery-3.2.1.min.js"></script>
+	<script>
+		var socket  = io("https://minhtam.herokuapp.com");
+		$("#ten").hide();
+		socket.on("server-send-dangki-thatbai",function(data){
+			alert("User "+data+"  da ton tai");
+		});
+		socket.on("server-send-co-nguoi-dangki-thanhcong",function(data){
+			var s = "<div class='motUser'>"+ data + "</div>";
+			$("#danhsachUserOnline").append(s);
+		});
+		socket.on("server-send-dangki-thanhcong",function(data){
+			$("#txtUser").hide();
+			$("#btnDangki").hide();
+			$("#ten").append(data);
+		});
+		socket.on()
+		socket.on("server_gui_message",function(data){
+			var hoten = "<span class='hoten'>"+ data.Username + "</span>";
+			var msg = "<span class='msg'>"+data.msg+"</span>";
+			$("#dsMsg").append(hoten+" :  "+msg+"<div class='block'></div>"); 
+			$("#txtMessage").val("");
+		});
+		$(document).ready(function(){
+			socket.on("server-send-du-lieu-cho-nguoi-moi",function(data){
+				$("#danhsachUserOnline").val("");
+				for (var i = data.length - 1; i >= 0; i--) {
+					dataA = data[i];
+					var s = "<div class='motUser'>"+ dataA + "</div>";
+					$("#danhsachUserOnline").append(s);
+				};
+			});
+			$("#btnDangki").click(function(){
+				socket.emit("client_gui_username",$("#txtUser").val());				
+			});
+			$("#btnChat").click(function(){
+				socket.emit("client_gui_message",$("#txtMessage").val());
+			});
+			socket.on("server-send-co-nguoi-thoat",function(data){
+				$("#danhsachUserOnline").html("");
+				for (var i = data.length - 1; i >= 0; i--) {
+					dataA = data[i];
+					var s = "<div class='motUser'>"+ dataA + "</div>";
+					$("#danhsachUserOnline").append(s);
+				};
+			});
+		});
+	</script>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+	<div id="wrapper">
+		<h1>Demo Chat Khoa Pham SocketIO NodeJS</h1>
+		<input type="text" id="txtUser" placeholder="UserName">
+		<input type="button" id="btnDangki" value="Dang ki">
+		<span id="ten"></span>
+		<div class="block"></div>
+		<div id="left">
+			<div id="title"> User Online</div>
+			<div id="danhsachUserOnline"></div>
+		</div>
+		<div id="right">
+			<input type="text" id="txtMessage" placeholder="Messgage ...">
+			<input type="button" id="btnChat" value="Chat">
+			<div class="block"></div>
+			<div id="dsMsg" ></div>
+		</div>
+	</div>
+</body>
+</html>
