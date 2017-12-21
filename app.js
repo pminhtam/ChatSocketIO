@@ -16,7 +16,7 @@ io.on("connection",function(socket){
 		console.log("co nguoi dang ky voi ten la: " + data);
 		if(mangUserOnline.indexOf(data)>=0){
 			socket.emit("server-send-dangki-thatbai",data);
-		}
+		};
 		else{
 			mangUserOnline.push(data);
 			socket.Username = data;
