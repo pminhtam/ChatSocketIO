@@ -6,7 +6,7 @@ app.set("view engine","ejs");
 app.set("views","./views");
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
-server.listen(process.env.PORT || 3000);
+server.listen(3000);
 
 var mangUserOnline = [];
 io.on("connection",function(socket){
@@ -16,7 +16,7 @@ io.on("connection",function(socket){
 		console.log("co nguoi dang ky voi ten la: " + data);
 		if(mangUserOnline.indexOf(data)>=0){
 			socket.emit("server-send-dangki-thatbai",data);
-		};
+		}
 		else{
 			mangUserOnline.push(data);
 			socket.Username = data;
@@ -28,12 +28,16 @@ io.on("connection",function(socket){
 	socket.on("client_gui_message",function(data){
 		console.log("Username la: "+socket.Username + "  "+ data);
 		io.sockets.emit("server_gui_message",{Username:socket.Username,msg:data});
+		console.log("Vua nhan tin nhan thi :  "+ mangUserOnline);
+
 	});
 	socket.on("disconnect",function(){
-		console.log(mangUserOnline);
-		var vitrixoa = mangUserOnline.valueOf(socket.Username);
+		console.log("Truoc xoa   "+mangUserOnline);
+		var vitrixoa = mangUserOnline.indexOf(socket.Username);
+		console.log("Vi tri xoa    "+vitrixoa);
 		mangUserOnline.splice(vitrixoa,1);
 		io.sockets.emit("server-send-co-nguoi-thoat",mangUserOnline);
+		console.log("Sau xoa   "+mangUserOnline);
 	});
 });
 

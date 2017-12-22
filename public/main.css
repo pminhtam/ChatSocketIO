@@ -40,3 +40,8 @@ h1{
 	text-align: center;
 	padding: 5px;
 }
+#dsMsg{
+	height: 450px;
+	clear: both;
+	overflow: scroll;
+}
