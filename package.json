@@ -4,7 +4,7 @@
   "description": "sample chat",
   "author": "minhtam",
   "dependencies": {
-    "express": "*", //Tai cac gói cần thiết về
+    "express": "*",
     "socket.io": "*",
     "ejs": "*"
   }
