@@ -5,8 +5,8 @@
 	<script src="socket.io/socket.io.js"></script>
 	<script src="jquery-3.2.1.min.js"></script>
 	<script>
-		// var socket  = io("https://minhtam.herokuapp.com");
-		var socket  = io("http://localhost:3000");
+		var socket  = io("https://minhtamchat.herokuapp.com");
+		// var socket  = io("http://localhost:3000");
 		$("#ten").hide();
 		socket.on("server-send-dangki-thatbai",function(data){
 			alert("User "+data+"  da ton tai");
